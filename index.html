@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" class="transition duration-300">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kiran Chauhan - Portfolio, Education, Goals, Achievements" />
+  <meta name="author" content="Kiran Chauhan" />
+  <meta name="keywords" content="portfolio, computer engineering, android developer, Kiran Chauhan">
+  <title>Kiran Chauhan | Portfolio</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              600: '#059669',
+              700: '#047857',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans transition duration-300">
+
+  <!-- Cookie Consent -->
+  <div id="cookieConsent" class="fixed bottom-0 left-0 right-0 bg-gray-800 dark:bg-gray-700 text-white p-4 hidden z-50">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
+      <p class="mb-4 md:mb-0">We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
+      <div class="flex space-x-4">
+        <button id="acceptCookies" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">Accept</button>
+        <button id="declineCookies" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition">Decline</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div id="loader" class="fixed inset-0 bg-white dark:bg-gray-900 z-50 flex items-center justify-center">
+    <div class="w-12 h-12 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-green-600 text-white text-center py-10 px-4 relative">
+    <h1 class="text-4xl font-bold">Welcome to My Portfolio</h1>
+    <p class="mt-2">Hi, I'm Kiran Chauhan, a Computer Engineering student from Bhiwandi.</p>
+    <button id="darkToggle" class="absolute top-4 right-4 bg-white dark:bg-gray-700 text-green-600 dark:text-white px-3 py-1 rounded shadow hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+      <i class="fas fa-moon dark:hidden"></i>
+      <i class="fas fa-sun hidden dark:inline"></i>
+    </button>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="bg-gray-800 dark:bg-gray-700 text-white">
+    <div class="max-w-6xl mx-auto px-4 py-3">
+      <div class="flex justify-between items-center">
+        <div class="text-xl font-semibold">Menu</div>
+        <button id="mobileMenuButton" class="md:hidden focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+        <div class="hidden md:flex space-x-6">
+          <button class="tab-btn" data-target="about">About</button>
+          <button class="tab-btn" data-target="video">Video</button>
+          <button class="tab-btn" data-target="achievements">Achievements</button>
+          <button class="tab-btn" data-target="goals">Goals</button>
+          <button class="tab-btn" data-target="personal">Personal</button>
+          <button class="tab-btn" data-target="location">Location</button>
+          <button class="tab-btn" data-target="contact">Contact</button>
+          <a href="shop.html" class="hover:text-green-400 transition">Shop</a>
+        </div>
+      </div>
+      <!-- Mobile menu -->
+      <div id="mobileMenu" class="hidden md:hidden mt-4 space-y-2 pb-2">
+        <button class="tab-btn block w-full text-left py-2" data-target="about">About</button>
+        <button class="tab-btn block w-full text-left py-2" data-target="video">Video</button>
+        <button class="tab-btn block w-full text-left py-2" data-target="achievements">Achievements</button>
+        <button class="tab-btn block w-full text-left py-2" data-target="goals">Goals</button>
+        <button class="tab-btn block w-full text-left py-2" data-target="personal">Personal</button>
+        <button class="tab-btn block w-full text-left py-2" data-target="location">Location</button>
+        <button class="tab-btn block w-full text-left py-2" data-target="contact">Contact</button>
+        <a href="shop.html" class="block py-2 hover:text-green-400 transition">Shop</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-6xl mx-auto">
+    <!-- Sections -->
+    <section id="about" class="tab-section block bg-white dark:bg-gray-800 p-6 mt-4 rounded-lg shadow-md mx-4 fade-in">
+      <h2 class="text-2xl font-bold mb-4">About Me</h2>
+      <div class="flex flex-col md:flex-row items-center gap-6">
+        <img src="photo.jpeg" alt="Kiran Chauhan" class="w-32 h-32 rounded-full object-cover border-4 border-green-500">
+        <div>
+          <p class="mb-2"><strong class="text-green-600 dark:text-green-400">Name:</strong> Kiran Chauhan</p>
+          <p class="mb-2"><strong class="text-green-600 dark:text-green-400">Location:</strong> Bhiwandi, Maharashtra</p>
+          <p class="mb-2"><strong class="text-green-600 dark:text-green-400">Education:</strong> Computer Engineering</p>
+          <p class="mb-2"><strong class="text-green-600 dark:text-green-400">Skills:</strong> C, C++, Python, SQL, Android Development</p>
+          <p class="mb-2"><strong class="text-green-600 dark:text-green-400">Experience:</strong> Internships at Eduskill & Infosys</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="video" class="tab-section hidden bg-gray-200 dark:bg-gray-700 p-6 my-4 rounded-lg mx-4 fade-in">
+      <h2 class="text-2xl font-bold mb-4">Inspirational Video</h2>
+      <div class="aspect-w-16 aspect-h-9">
+        <iframe class="w-full h-64 md:h-96 rounded-lg shadow"
+          src="https://www.youtube.com/embed/iuQ3zyKq-JY"
+          title="Motivational Video by Muniba Mazari"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <section id="achievements" class="tab-section hidden bg-white dark:bg-gray-800 p-6 my-4 rounded-lg shadow-md mx-4 fade-in">
+      <h2 class="text-2xl font-bold mb-4">Achievements</h2>
+      <ul class="space-y-3">
+        <li class="flex items-start">
+          <span class="text-green-600 dark:text-green-400 mr-2 mt-1">✓</span>
+          <span>3rd prize in Standard Presentation (BIS)</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-green-600 dark:text-green-400 mr-2 mt-1">✓</span>
+          <span>Completed a short AR/VR course from Udemy</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-green-600 dark:text-green-400 mr-2 mt-1">✓</span>
+          <span>Successfully completed internships at Eduskill & Infosys</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-green-600 dark:text-green-400 mr-2 mt-1">✓</span>
+          <span>Participated in National Service Scheme (NSS) activities</span>
+        </li>
+      </ul>
+    </section>
+
+    <section id="goals" class="tab-section hidden bg-gray-200 dark:bg-gray-700 p-6 my-4 rounded-lg mx-4 fade-in">
+      <h2 class="text-2xl font-bold mb-4">Future Goals</h2>
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-inner">
+        <p class="mb-4">My primary career goal is to become a skilled <strong class="text-green-600 dark:text-green-400">Android Developer</strong> and build innovative mobile applications that solve real-world problems.</p>
+        <p class="mb-4">Short-term objectives:</p>
+        <ul class="list-disc ml-6 space-y-2">
+          <li>Master Kotlin and Android SDK</li>
+          <li>Build 5 portfolio-worthy apps</li>
+          <li>Contribute to open-source projects</li>
+          <li>Secure a junior developer position</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="personal" class="tab-section hidden bg-white dark:bg-gray-800 p-6 my-4 rounded-lg shadow-md mx-4 fade-in">
+      <h2 class="text-2xl font-bold mb-4">Personal Side</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-xl font-semibold mb-3 text-green-600 dark:text-green-400">Hobbies & Interests</h3>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-book mr-2 text-green-600"></i>
+              <span>Reading tech blogs and books</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-laptop-code mr-2 text-green-600"></i>
+              <span>Learning new programming languages</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-music mr-2 text-green-600"></i>
+              <span>Listening to music</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-3 text-green-600 dark:text-green-400">Favorites</h3>
+          <p><strong>Book:</strong> <span class="italic">Believe in Yourself</span></p>
+          <p><strong>Website:</strong> <a href="https://google.com" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">Google</a></p>
+          <p><strong>Quote:</strong> "The only way to do great work is to love what you do."</p>
+          <p><strong>Volunteering:</strong> Participated in NSS activities</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="location" class="tab-section hidden bg-gray-200 dark:bg-gray-700 p-6 my-4 rounded-lg mx-4 fade-in">
+      <h2 class="text-2xl font-bold mb-4">My Location</h2>
+      <div class="flex flex-col md:flex-row gap-6">
+        <div class="md:w-1/2">
+          <p class="mb-4">I currently live in <strong class="text-green-600 dark:text-green-400">Bhiwandi, Maharashtra</strong>, a city known for its textile industry and strategic location between Mumbai and Thane.</p>
+          <p class="mb-4">Some notable places in Bhiwandi:</p>
+          <ul class="list-disc ml-6 space-y-2">
+            <li>Bhiwandi Fort</li>
+            <li>Shiva Temple</li>
+            <li>Vajreshwari Water Temple</li>
+            <li>Many lakes and natural spots</li>
+          </ul>
+        </div>
+        <div class="md:w-1/2">
+          <iframe class="w-full h-64 md:h-full rounded-lg shadow"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60345.35464231995!2d73.0150499!3d19.2962515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be794db45d25cfd%3A0x48cc8f263a017f17!2sBhiwandi%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1684597780674!5m2!1sen!2sin"
+            allowfullscreen="" loading="lazy" style="border:0;"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="tab-section hidden bg-white dark:bg-gray-800 p-6 my-4 rounded-lg shadow-md mx-4 mb-6 fade-in">
+      <h2 class="text-2xl font-bold mb-6">Contact Me</h2>
+      <div class="flex flex-col md:flex-row gap-8">
+        <div class="md:w-1/2">
+          <p class="mb-6">I'd love to hear from you! Whether you have a question about my work, want to collaborate, or just want to say hello, feel free to reach out.</p>
+          
+          <div class="space-y-4">
+            <div class="flex items-center">
+              <i class="fas fa-envelope text-green-600 mr-3 text-xl"></i>
+              <span>kiran.chauhan@example.com</span>
+            </div>
+            <div class="flex items-center">
+              <i class="fas fa-phone text-green-600 mr-3 text-xl"></i>
+              <span>+91 7777777777</span>
+            </div>
+            <div class="flex items-center">
+              <i class="fab fa-linkedin text-green-600 mr-3 text-xl"></i>
+              <a href="https://linkedin.com/in/kiran-chauhan" class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank">linkedin.com/in/kiran-chauhan</a>
+            </div>
+            <div class="flex items-center">
+              <i class="fab fa-github text-green-600 mr-3 text-xl"></i>
+              <a href="https://github.com/12-Kiran-Chauhan" class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank">github.com/kiranchauhan</a>
+            </div>
+            <div class="flex items-center">
+              <i class="fas fa-map-marker-alt text-green-600 mr-3 text-xl"></i>
+              <span>Bhiwandi, Maharashtra, India</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="md:w-1/2">
+          <form id="contactForm" class="space-y-4">
+            <div>
+              <label for="name" class="block font-semibold mb-1">Name</label>
+              <input type="text" id="name" name="name" required 
+                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 focus:ring-2 focus:ring-green-500 focus:border-transparent transition" />
+            </div>
+            <div>
+              <label for="email" class="block font-semibold mb-1">Email</label>
+              <input type="email" id="email" name="email" required 
+                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 focus:ring-2 focus:ring-green-500 focus:border-transparent transition" />
+              <p id="emailError" class="text-red-500 text-sm mt-1 hidden">Please enter a valid email address.</p>
+            </div>
+            <div>
+              <label for="message" class="block font-semibold mb-1">Message</label>
+              <textarea id="message" name="message" rows="4" required 
+                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 focus:ring-2 focus:ring-green-500 focus:border-transparent transition"></textarea>
+            </div>
+            <button type="submit" 
+              class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg transition duration-300 transform hover:scale-105">
+              Send Message
+            </button>
+          </form>
+          <p id="formSuccess" class="text-green-600 mt-4 hidden">Thank you! Your message has been sent successfully. I'll get back to you soon.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Scroll to Top -->
+  <button id="scrollToTop" class="fixed bottom-6 right-6 bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition opacity-0 invisible transform translate-y-4 duration-300">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 dark:bg-gray-700 text-white py-8">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <h3 class="text-xl font-bold mb-2">Kiran Chauhan</h3>
+          <p class="text-gray-400">Computer Engineering Student | Aspiring Android Developer</p>
+        </div>
+        <div class="flex space-x-6">
+          <a href="https://linkedin.com/in/kiran-chauhan" target="_blank" class="text-gray-400 hover:text-green-400 transition text-2xl">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="https://github.com/12-Kiran-Chauhan" target="_blank" class="text-gray-400 hover:text-green-400 transition text-2xl">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="mailto:kiran.chauhan@example.com" class="text-gray-400 hover:text-green-400 transition text-2xl">
+            <i class="fas fa-envelope"></i>
+          </a>
+        </div>
+      </div>
+      <hr class="border-gray-700 my-6">
+      <div class="text-center text-gray-400">
+        &copy; <span id="currentYear"></span> Kiran Chauhan. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Loader
+    window.addEventListener("load", () => {
+      document.getElementById("loader").style.display = "none";
+    });
+
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobileMenuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Tab navigation
+    const buttons = document.querySelectorAll(".tab-btn");
+    const sections = document.querySelectorAll(".tab-section");
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        const target = button.dataset.target;
+        sections.forEach(section => {
+          section.classList.add("hidden");
+          section.classList.remove("fade-in");
+        });
+        const targetSection = document.getElementById(target);
+        targetSection.classList.remove("hidden");
+        setTimeout(() => {
+          targetSection.classList.add("fade-in");
+        }, 10);
+        
+        // Close mobile menu if open
+        if (!mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    });
+
+    // Form validation
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const emailError = document.getElementById("emailError");
+      const successMsg = document.getElementById("formSuccess");
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      
+      if (!emailPattern.test(email)) {
+        emailError.classList.remove("hidden");
+        successMsg.classList.add("hidden");
+        return;
+      }
+      
+      emailError.classList.add("hidden");
+      successMsg.classList.remove("hidden");
+      this.reset();
+      
+      // Store form submission in localStorage
+      const submissions = JSON.parse(localStorage.getItem('contactSubmissions')) || [];
+      submissions.push({
+        name: document.getElementById("name").value,
+        email: email,
+        message: document.getElementById("message").value,
+        timestamp: new Date().toISOString()
+      });
+      localStorage.setItem('contactSubmissions', JSON.stringify(submissions));
+    });
+
+    // Dark mode toggle with localStorage
+    const darkToggle = document.getElementById("darkToggle");
+    const html = document.documentElement;
+    
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme') || 
+                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    if (savedTheme === 'dark') {
+      html.classList.add('dark');
+    }
+    
+    darkToggle.addEventListener("click", () => {
+      html.classList.toggle("dark");
+      const theme = html.classList.contains('dark') ? 'dark' : 'light';
+      localStorage.setItem('theme', theme);
+    });
+
+    // Scroll to top button
+    const scrollToTopBtn = document.getElementById("scrollToTop");
+    window.addEventListener("scroll", () => {
+      if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.remove("opacity-0", "invisible", "translate-y-4");
+        scrollToTopBtn.classList.add("opacity-100", "visible", "translate-y-0");
+      } else {
+        scrollToTopBtn.classList.add("opacity-0", "invisible", "translate-y-4");
+        scrollToTopBtn.classList.remove("opacity-100", "visible", "translate-y-0");
+      }
+    });
+    
+    scrollToTopBtn.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+
+    // Cookie consent
+    const cookieConsent = document.getElementById("cookieConsent");
+    const acceptCookies = document.getElementById("acceptCookies");
+    const declineCookies = document.getElementById("declineCookies");
+    
+    // Check if consent was given
+    if (!localStorage.getItem('cookieConsent')) {
+      setTimeout(() => {
+        cookieConsent.classList.remove("hidden");
+      }, 2000);
+    }
+    
+    acceptCookies.addEventListener("click", () => {
+      localStorage.setItem('cookieConsent', 'accepted');
+      cookieConsent.classList.add("hidden");
+      // Here you would typically load analytics scripts
+    });
+    
+    declineCookies.addEventListener("click", () => {
+      localStorage.setItem('cookieConsent', 'declined');
+      cookieConsent.classList.add("hidden");
+    });
+
+    // Set current year in footer
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+    // Remember last visited section
+    window.addEventListener('beforeunload', () => {
+      const visibleSection = document.querySelector('.tab-section:not(.hidden)');
+      if (visibleSection) {
+        localStorage.setItem('lastSection', visibleSection.id);
+      }
+    });
+
+    // Load last visited section
+    document.addEventListener('DOMContentLoaded', () => {
+      const lastSection = localStorage.getItem('lastSection');
+      if (lastSection && document.getElementById(lastSection)) {
+        sections.forEach(section => section.classList.add("hidden"));
+        document.getElementById(lastSection).classList.remove("hidden");
+      }
+    });
+  </script>
+</body>
+</html>

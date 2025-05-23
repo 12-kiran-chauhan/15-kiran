@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Kiran Chauhan</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .thumbnail.active {
+            border-color: #059669;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-800">
+    <!-- Header -->
+    <header class="bg-green-600 text-white text-center py-10 px-4 relative">
+        <h1 class="text-4xl font-bold">Welcome to My Shop</h1>
+        <p class="mt-2">Explore exclusive products crafted just for you!</p>
+        <button id="darkToggle" class="absolute top-4 right-4 bg-white dark:bg-gray-700 text-green-600 dark:text-white px-3 py-1 rounded shadow hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+            <i class="fas fa-moon dark:hidden"></i>
+            <i class="fas fa-sun hidden dark:inline"></i>
+        </button>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-gray-800 dark:bg-gray-700 text-white">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-semibold">Menu</div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="hover:text-green-400 transition">Home</a>
+                    <a href="shop.html" class="hover:text-green-400 transition">Shop</a>
+                    <a href="index.html#about" class="hover:text-green-400 transition">About</a>
+                    <a href="index.html#contact" class="hover:text-green-400 transition">Contact</a>
+                </div>
+                <button id="cartToggle" class="relative">
+                    <i class="fas fa-shopping-cart text-2xl"></i>
+                    <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Shop Section -->
+    <main class="max-w-6xl mx-auto p-6 mt-4">
+        <h2 class="text-3xl font-bold mb-6 text-green-600 dark:text-green-400">Our Products</h2>
+        
+        <!-- Search and Filter -->
+        <div class="mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="relative w-full md:w-64">
+                <input type="text" id="searchInput" placeholder="Search products..." 
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+            <select id="filterSelect" class="w-full md:w-48 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
+                <option value="all">All Products</option>
+                <option value="electronics">Electronics</option>
+                <option value="books">Books</option>
+                <option value="accessories">Accessories</option>
+            </select>
+        </div>
+        
+        <div id="products" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Product cards will be injected by JavaScript -->
+        </div>
+
+        <!-- Feature Highlights -->
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div class="p-6 bg-white dark:bg-gray-700 rounded shadow">
+                <i class="fas fa-clock text-3xl text-green-600 dark:text-green-400 mb-3"></i>
+                <h4 class="text-xl font-semibold mb-1">24/7 Availability</h4>
+                <p class="text-gray-600 dark:text-gray-300">Shop anytime, anywhere.</p>
+            </div>
+            <div class="p-6 bg-white dark:bg-gray-700 rounded shadow">
+                <i class="fas fa-shipping-fast text-3xl text-green-600 dark:text-green-400 mb-3"></i>
+                <h4 class="text-xl font-semibold mb-1">Fast Delivery</h4>
+                <p class="text-gray-600 dark:text-gray-300">Get products quickly and reliably.</p>
+            </div>
+            <div class="p-6 bg-white dark:bg-gray-700 rounded shadow">
+                <i class="fas fa-truck text-3xl text-green-600 dark:text-green-400 mb-3"></i>
+                <h4 class="text-xl font-semibold mb-1">Free Delivery</h4>
+                <p class="text-gray-600 dark:text-gray-300">No extra delivery charges!</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 invisible p-4">
+        <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto transform translate-y-10">
+            <div class="relative">
+                <button id="closeModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="p-6">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="md:w-1/2">
+                            <div class="relative">
+                                <img id="modalProductImage" src="" alt="" class="w-full h-auto rounded-lg shadow-md">
+                                <div class="absolute bottom-4 left-4 bg-green-600 text-white px-2 py-1 rounded text-sm">
+                                    Best Seller
+                                </div>
+                            </div>
+                            <div class="mt-4 grid grid-cols-4 gap-2">
+                                <img src="photo1.jpeg" alt="Thumbnail 1" class="thumbnail h-16 w-16 object-cover rounded cursor-pointer border-2 border-green-500 active" data-img="photo1.jpeg">
+                                <img src="photo2.jpeg" alt="Thumbnail 2" class="thumbnail h-16 w-16 object-cover rounded cursor-pointer border border-gray-200 dark:border-gray-600" data-img="photo2.jpeg">
+                                <img src="photo3.jpeg" alt="Thumbnail 3" class="thumbnail h-16 w-16 object-cover rounded cursor-pointer border border-gray-200 dark:border-gray-600" data-img="photo3.jpeg">
+                                <img src="photo1.jpeg" alt="Thumbnail 4" class="thumbnail h-16 w-16 object-cover rounded cursor-pointer border border-gray-200 dark:border-gray-600" data-img="photo1.jpeg">
+                            </div>
+                            
+                            <!-- Color Options -->
+                            <div class="mt-6">
+                                <h4 class="font-medium mb-2">Available Colors:</h4>
+                                <div class="flex gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-black border-2 border-gray-300 cursor-pointer"></div>
+                                    <div class="w-8 h-8 rounded-full bg-blue-600 border border-gray-300 cursor-pointer"></div>
+                                    <div class="w-8 h-8 rounded-full bg-gray-300 border border-gray-300 cursor-pointer"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2">
+                            <h2 id="modalProductName" class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2"></h2>
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="flex items-center">
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <span class="text-gray-600 dark:text-gray-300 ml-2">(4.5) 24 reviews</span>
+                                </div>
+                                <p id="modalProductPrice" class="text-3xl font-bold"></p>
+                            </div>
+                            <p id="modalProductDesc" class="text-gray-700 dark:text-gray-300 mb-6"></p>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-semibold mb-3 text-lg">Key Features:</h3>
+                                <ul id="modalProductFeatures" class="space-y-2 text-gray-700 dark:text-gray-300">
+                                    <!-- Features will be added by JavaScript -->
+                                </ul>
+                            </div>
+                            
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded">
+                                    <button class="quantity-btn px-3 py-1 text-lg hover:bg-gray-100 dark:hover:bg-gray-700">-</button>
+                                    <span class="quantity px-4 py-1 border-x border-gray-300 dark:border-gray-600">1</span>
+                                    <button class="quantity-btn px-3 py-1 text-lg hover:bg-gray-100 dark:hover:bg-gray-700">+</button>
+                                </div>
+                                <button id="addToCartModal" class="flex-1 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded transition flex items-center justify-center">
+                                    <i class="fas fa-cart-plus mr-2"></i> Add to Cart
+                                </button>
+                            </div>
+                            
+                            <div class="border-t pt-4">
+                                <div class="flex items-center mb-2">
+                                    <i class="fas fa-shield-alt text-green-600 dark:text-green-400 mr-2"></i>
+                                    <span>2 Year Warranty</span>
+                                </div>
+                                <div class="flex items-center mb-2">
+                                    <i class="fas fa-undo text-green-600 dark:text-green-400 mr-2"></i>
+                                    <span>30-Day Return Policy</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-truck text-green-600 dark:text-green-400 mr-2"></i>
+                                    <span>Free Shipping on all orders</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <aside id="cartSidebar" class="fixed top-0 right-0 h-full w-80 bg-white dark:bg-gray-800 shadow-lg transform translate-x-full transition-transform z-50 p-6 overflow-y-auto">
+        <h3 class="text-2xl font-bold mb-4 text-green-600 dark:text-green-400">Your Cart</h3>
+        <ul id="cartItems" class="space-y-4">
+            <!-- Cart items will be added here -->
+        </ul>
+        <div class="mt-6 border-t pt-4">
+            <p class="text-lg font-semibold">Total: $<span id="cartTotal">0.00</span></p>
+            <button id="checkoutBtn" class="mt-4 w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition">Checkout</button>
+        </div>
+    </aside>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 dark:bg-gray-700 text-white py-8 mt-10">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">Kiran Chauhan</h3>
+                    <p class="text-gray-400">Computer Engineering Student | Aspiring Android Developer</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="https://linkedin.com/in/kiran-chauhan" target="_blank" class="text-gray-400 hover:text-green-400 transition text-2xl">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/12-Kiran-Chauhan" target="_blank" class="text-gray-400 hover:text-green-400 transition text-2xl">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:kiran.chauhan@example.com" class="text-gray-400 hover:text-green-400 transition text-2xl">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <hr class="border-gray-700 my-6">
+            <div class="text-center text-gray-400">
+                &copy; <span id="currentYear"></span> Kiran Chauhan. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Dark mode toggle
+        const html = document.documentElement;
+        const darkToggle = document.getElementById("darkToggle");
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (savedTheme === 'dark') html.classList.add('dark');
+        darkToggle.addEventListener("click", () => {
+            html.classList.toggle("dark");
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Set current year in footer
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+        // Product data
+        const products = [
+            { 
+                id: 1, 
+                name: 'Smartphone X', 
+                price: 599.99, 
+                img: 'image3.jpeg', 
+                desc: 'The latest smartphone with advanced camera features and long battery life. Perfect for photography enthusiasts and power users.', 
+                category: 'electronics',
+                features: [
+                    '6.5" AMOLED Display with 120Hz refresh rate',
+                    '128GB Storage (expandable up to 1TB)',
+                    '48MP Triple Camera system with night mode',
+                    '5000mAh Battery with fast charging',
+                    '5G Connectivity for ultra-fast speeds'
+                ],
+                colors: ['Black', 'Blue', 'Silver'],
+                warranty: '2 years manufacturer warranty'
+            },
+            { 
+                id: 2, 
+                name: 'Wireless Earbuds Pro', 
+                price: 129.99, 
+                img: 'image2.jpeg', 
+                desc: 'Premium wireless earbuds with active noise cancellation and 24-hour battery life. Perfect for commuters and music lovers.', 
+                category: 'electronics',
+                features: [
+                    'Active Noise Cancellation (ANC) technology',
+                    '24 hours total battery life with charging case',
+                    'IPX4 water resistance for workouts',
+                    'Bluetooth 5.0 with 30ft range',
+                    'Touch controls for music and calls'
+                ],
+                colors: ['Black', 'White'],
+                warranty: '1 year warranty'
+            },
+            { 
+                id: 3, 
+                name: 'Programming Book Bundle', 
+                price: 49.99, 
+                img: 'image4.jpeg', 
+                desc: 'Collection of 3 best-selling programming books for beginners to advanced developers. Learn Python, JavaScript and Algorithms.', 
+                category: 'books',
+                features: [
+                    '3 Books in 1 complete bundle',
+                    'Covers Python, JavaScript, and Algorithms',
+                    '500+ Pages in each book',
+                    'Practical examples and exercises',
+                    'Free e-book version included'
+                ],
+                colors: ['Multicolor'],
+                warranty: 'No warranty on books'
+            },
+            { 
+                id: 4, 
+                name: 'Leather Laptop Bag', 
+                price: 89.99, 
+                img: 'image5.jpeg', 
+                desc: 'Premium genuine leather laptop bag with multiple compartments and USB charging port. Professional look for business and travel.', 
+                category: 'accessories',
+                features: [
+                    'Fits 15.6" laptops comfortably',
+                    'Made from 100% genuine leather',
+                    'Built-in USB charging port',
+                    'Anti-theft design with lockable zippers',
+                    'Water resistant exterior'
+                ],
+                colors: ['Brown', 'Black'],
+                warranty: '1 year warranty'
+            },
+            { 
+                id: 5, 
+                name: 'Smart Watch 3', 
+                price: 199.99, 
+                img: 'image6.jpeg', 
+                desc: 'Feature-packed smartwatch with health monitoring and smartphone notifications. Track your fitness and stay connected.', 
+                category: 'electronics',
+                features: [
+                    '1.4" AMOLED touch display',
+                    '24/7 heart rate monitoring',
+                    'SpO2 blood oxygen tracking',
+                    '7-day battery life on single charge',
+                    'IP68 waterproof for swimming'
+                ],
+                colors: ['Black', 'Silver', 'Rose Gold'],
+                warranty: '1 year warranty'
+            },
+            { 
+                id: 6, 
+                name: 'Mechanical Keyboard', 
+                price: 79.99, 
+                img: 'image7.jpeg', 
+                desc: 'RGB backlit mechanical keyboard with customizable keys and ergonomic design. Perfect for gamers and programmers.', 
+                category: 'electronics',
+                features: [
+                    'Cherry MX Blue mechanical switches',
+                    '16.8 million RGB backlight colors',
+                    'N-key rollover for gaming',
+                    'Braided cable for durability',
+                    'Adjustable feet for comfortable typing'
+                ],
+                colors: ['Black'],
+                warranty: '2 years warranty'
+            }
+        ];
+
+        // Cart functionality
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // DOM elements
+        const productsContainer = document.getElementById('products');
+        const cartItemsContainer = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        const cartCount = document.getElementById('cartCount');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const cartToggle = document.getElementById('cartToggle');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const searchInput = document.getElementById('searchInput');
+        const filterSelect = document.getElementById('filterSelect');
+        
+        // Modal elements
+        const productModal = document.getElementById('productModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalProductImage = document.getElementById('modalProductImage');
+        const modalProductName = document.getElementById('modalProductName');
+        const modalProductPrice = document.getElementById('modalProductPrice');
+        const modalProductDesc = document.getElementById('modalProductDesc');
+        const modalProductFeatures = document.getElementById('modalProductFeatures');
+        const addToCartModal = document.getElementById('addToCartModal');
+        const quantityDisplay = document.querySelector('.quantity');
+        const quantityBtns = document.querySelectorAll('.quantity-btn');
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        let currentProduct = null;
+
+        // Render products
+        function renderProducts(productsToRender = products) {
+            productsContainer.innerHTML = '';
+            productsToRender.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'product-card bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden transition-all duration-300';
+                card.innerHTML = `
+                    <div class="relative">
+                        <img src="${p.img}" alt="${p.name}" class="w-full h-48 object-cover cursor-pointer view-detail" data-id="${p.id}">
+                        <div class="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 rounded text-xs font-semibold">
+                            Quick View
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-green-600 dark:text-green-400">${p.name}</h3>
+                        
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-lg font-bold">$${p.price.toFixed(2)}</span>
+                            <div class="flex items-center">
+                                <div class="flex text-yellow-400 text-sm">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="mb-4 text-gray-700 dark:text-gray-300 text-sm line-clamp-2">${p.desc}</p>
+                        
+                        <div class="mb-4">
+                            <p class="text-sm font-medium mb-1">Key Feature:</p>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">${p.features[0]}</p>
+                        </div>
+                        
+                        <div class="flex gap-2">
+                            <button class="view-detail flex-1 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-800 dark:text-white px-3 py-2 rounded transition flex items-center justify-center" data-id="${p.id}">
+                                <i class="fas fa-eye mr-2"></i> Details
+                            </button>
+                            <button class="addToCart flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded transition flex items-center justify-center" data-id="${p.id}">
+                                <i class="fas fa-cart-plus mr-2"></i> Add
+                            </button>
+                        </div>
+                    </div>`;
+                productsContainer.appendChild(card);
+            });
+            
+            // Add event listeners to view detail buttons
+            document.querySelectorAll('.view-detail').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = +e.currentTarget.getAttribute('data-id');
+                    showProductDetail(id);
+                });
+            });
+        }
+
+        // Show product detail modal
+        function showProductDetail(id) {
+            currentProduct = products.find(p => p.id === id);
+            if (!currentProduct) return;
+            
+            modalProductImage.src = currentProduct.img;
+            modalProductImage.alt = currentProduct.name;
+            modalProductName.textContent = currentProduct.name;
+            modalProductPrice.textContent = currentProduct.price.toFixed(2);
+            modalProductDesc.textContent = currentProduct.desc;
+            
+            // Clear and add features
+            modalProductFeatures.innerHTML = '';
+            currentProduct.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.className = 'flex items-start';
+                li.innerHTML = `
+                    <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>${feature}</span>
+                `;
+                modalProductFeatures.appendChild(li);
+            });
+            
+            // Reset quantity
+            quantityDisplay.textContent = '1';
+            
+            // Show modal
+            productModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Thumbnail click handler
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                // Remove active class from all thumbnails
+                thumbnails.forEach(t => t.classList.remove('active', 'border-green-500'));
+                // Add active class to clicked thumbnail
+                thumb.classList.add('active', 'border-green-500');
+                // Change main image
+                modalProductImage.src = thumb.getAttribute('data-img');
+            });
+        });
+
+        // Update cart display
+        function updateCart() {
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.className = 'flex justify-between items-center p-3 bg-gray-100 dark:bg-gray-700 rounded';
+                li.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <img src="${item.img}" alt="${item.name}" class="w-12 h-12 object-cover rounded">
+                        <div>
+                            <p class="font-semibold">${item.name}</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">$${item.price.toFixed(2)}</p>
+                        </div>
+                    </div>
+                    <button data-index="${index}" class="removeItem text-red-600 hover:text-red-800 dark:hover:text-red-400">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                cartItemsContainer.appendChild(li);
+                total += item.price;
+            });
+            
+            cartTotal.textContent = total.toFixed(2);
+            cartCount.textContent = cart.length;
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        // Event listeners
+        document.addEventListener('click', function (e) {
+            // Add to cart from product card
+            if (e.target.classList.contains('addToCart') || e.target.closest('.addToCart')) {
+                const btn = e.target.classList.contains('addToCart') ? e.target : e.target.closest('.addToCart');
+                const id = +btn.getAttribute('data-id');
+                const product = products.find(p => p.id === id);
+                if (product) {
+                    cart.push(product);
+                    updateCart();
+                    
+                    // Show a quick notification
+                    const notification = document.createElement('div');
+                    notification.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg animate-bounce';
+                    notification.textContent = `${product.name} added to cart!`;
+                    document.body.appendChild(notification);
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 2000);
+                }
+            }
+            
+            // Remove item from cart
+            if (e.target.classList.contains('removeItem')) {
+                const index = +e.target.getAttribute('data-index');
+                cart.splice(index, 1);
+                updateCart();
+            }
+        });
+
+        // Add to cart from modal
+        addToCartModal.addEventListener('click', () => {
+            if (!currentProduct) return;
+            
+            const quantity = parseInt(quantityDisplay.textContent);
+            for (let i = 0; i < quantity; i++) {
+                cart.push(currentProduct);
+            }
+            
+            updateCart();
+            productModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // Show notification
+            const notification = document.createElement('div');
+            notification.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg animate-bounce';
+            notification.textContent = `${quantity} ${currentProduct.name}(s) added to cart!`;
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        });
+
+        // Quantity buttons in modal
+        quantityBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                let quantity = parseInt(quantityDisplay.textContent);
+                if (btn.textContent === '+') {
+                    quantity++;
+                } else {
+                    if (quantity > 1) quantity--;
+                }
+                quantityDisplay.textContent = quantity;
+            });
+        });
+
+        // Cart toggle
+        cartToggle.addEventListener('click', () => {
+            cartSidebar.classList.toggle('translate-x-full');
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', () => {
+            productModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close modal when clicking outside
+        productModal.addEventListener('click', (e) => {
+            if (e.target === productModal) {
+                productModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Checkout button
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            const orderDetails = cart.map(item => `- ${item.name} ($${item.price.toFixed(2)})`).join('\n');
+            
+            alert(`Thank you for your purchase!\n\nOrder Summary:\n${orderDetails}\n\nTotal: $${total.toFixed(2)}\n\nYour order has been placed.`);
+            cart = [];
+            updateCart();
+            cartSidebar.classList.add('translate-x-full');
+        });
+
+        // Search functionality
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) || 
+                product.desc.toLowerCase().includes(searchTerm)
+            );
+            renderProducts(filteredProducts);
+        });
+
+        // Filter functionality
+        filterSelect.addEventListener('change', () => {
+            const filterValue = filterSelect.value;
+            if (filterValue === 'all') {
+                renderProducts(products);
+            } else {
+                const filteredProducts = products.filter(product => product.category === filterValue);
+                renderProducts(filteredProducts);
+            }
+        });
+
+        // Initialize
+        renderProducts();
+        updateCart();
+    </script>
+</body>
+</html>
